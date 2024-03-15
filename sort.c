@@ -68,22 +68,19 @@ void merge(int pData[], int l, int m, int r){
         c++;
     }
 
-    while(a < leftArr){
-        pData[c] = leftArr[a];
-        a++;
-        c++;
-    }
-
-    while(b < rightArr){
-        pData[c] = rightArr[b];
-        b++;
-        c++;
-    }
+    for(a = 0, b = 0, c = l; c <= r; c++){
+		if((a < lengthLeft) && (b >= lengthRight) || leftArr[a] <= rightArr[b]){
+			pData[c] = leftArr[a];
+			a++;
+		}
+		else{
+			pData[c] = rightArr[b];
+			b++;
+		}
+	}
 
     DeAlloc(leftArr);
     DeAlloc(rightArr);
-
-
 }
 
 void mergeSort(int pData[], int l, int r)
