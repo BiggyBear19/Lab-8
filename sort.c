@@ -29,8 +29,69 @@ size_t Size(void* ptr)
 
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
+void merge(int pData[], int l, int m, int r){
+    //The Mystery Mouseketools that will help us later
+    int a, b, c;
+
+    //First you need a length for the left and right array
+    int lengthLeft = m - l + 1;
+    int lengthRight = r - m;
+
+    int* leftArr = Alloc(lengthLeft);
+    int* rightArr = Alloc(lengthRight);
+
+
+    for(int i = 0; i < lengthLeft; i++){
+        leftArr[i] = pData[i + 1];
+    }
+
+    for(int j = 0; j < lengthRight; j++){
+        rightArr[j] = pData[m + 1 + j];
+    }
+
+    //Miska (the index for the left side of the array)
+    a = 0;
+    //Mouska (the index for the right side of the array)
+    b = 0;
+    //Mickey Mouse (the length/index of pData)
+    c = l;
+
+    while (a < lengthLeft && b < lengthRight){
+        if(leftArr[a] <= rightArr[b]){
+            pData[c] = leftArr[a];
+            a++;
+        }
+        else{
+            pData[c] = rightArr[b];
+            b++;
+        }
+        c++;
+    }
+
+    while(a < leftArr){
+        pData[c] = leftArr[a];
+        a++;
+        c++;
+    }
+
+    while(b < rightArr){
+        pData[c] = rightArr[b];
+        b++;
+        c++;
+    }
+
+    DeAlloc(leftArr);
+    DeAlloc(rightArr);
+
+
+}
+
 void mergeSort(int pData[], int l, int r)
 {
+    if(pData == NULL){
+        return;
+    }
+
     //Find the middle
     int m = l + (r - l)/2;
 
@@ -39,63 +100,8 @@ void mergeSort(int pData[], int l, int r)
         mergeSort(pData, l, m);
         mergeSort(pData, m+1, r);
 
-        //The Mystery Mouseketools that will help us later
-        int a, b, c;
-
-        //First you need a length for the left and right array
-        int lengthLeft = m - l + 1;
-        int lengthRight = r - m;
-
-        int* leftArr = Alloc(lengthLeft);
-        int* rightArr = Alloc(lengthRight);
-
-
-        for(int i = 0; i < lengthLeft; i++){
-            leftArr[i] = pData[i + 1];
-        }
-
-        for(int j = 0; j < lengthRight; j++){
-            rightArr[j] = pData[m + 1 + j];
-        }
-
-        //Miska (the index for the left side of the array)
-        a = 0;
-        //Mouska (the index for the right side of the array)
-        b = 0;
-        //Mickey Mouse (the length/index of pData)
-        c = l;
-
-        while (a < lengthLeft && b < lengthRight){
-            if(leftArr[a] <= rightArr[b]){
-                pData[c] = leftArr[a];
-                a++;
-            }
-            else{
-                pData[c] = rightArr[b];
-                b++;
-            }
-            c++;
-        }
-
-        while(a < leftArr){
-            pData[c] = leftArr[a];
-            a++;
-            c++;
-        }
-
-        while(b < rightArr){
-            pData[c] = rightArr[b];
-            b++;
-            c++;
-        }
-
-        DeAlloc(leftArr);
-        DeAlloc(rightArr);
-
+        merge(pData, l, m, r);
     }
-
-
-
 
 }
 
